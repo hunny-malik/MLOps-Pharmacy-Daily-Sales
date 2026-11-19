@@ -1,0 +1,41 @@
+base:
+  project: MP108_Pharmacy_Sales
+  random_state: 42
+
+data:
+  raw_train_path: "data/raw/train.csv"
+  raw_later_path: "data/raw/later.csv"
+  raw_holdout_path: "data/raw/holdout_features.csv"
+  cleaned_train_path: "data/processed/train_cleaned.csv"
+  cleaned_later_path: "data/processed/later_cleaned.csv"
+
+cleaning:
+  unit_mixup:
+    column: "distance_to_hospital_km"
+    group_value: "Old Town"
+    factor: 1000.0
+  sentinel_value:
+    column: "nearby_clinics"
+    sentinel: 9999
+  stuck_sensor:
+    column: "flu_cases_reported"
+    start_date: "2026-03-15"
+    end_date: "2026-04-04"
+
+model:
+  target_column: "units_sold"
+  test_size: 0.2
+  n_estimators: 100
+  max_depth: 8
+  learning_rate: 0.1
+
+tracking:
+  experiment_name: "mp108_pharmacy_sales"
+  registered_model_name: "mp108-sales-predictor"
+  tracking_uri: "sqlite:///mlflow.db"
+
+service:
+  host: "0.0.0.0"
+  port: 8000
+  stock_lines_max: 5500
+  temp_c_min: 2.5
