@@ -35,6 +35,9 @@ htmlcov/
 # MLflow runs and artifacts
 mlruns/
 mlartifacts/
+mlflow.db
+mlflow.db-shm
+mlflow.db-wal
 
 # Processed / temporary data
 data/processed/
