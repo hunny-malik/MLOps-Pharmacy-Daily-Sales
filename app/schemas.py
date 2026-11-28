@@ -1,6 +1,6 @@
-import datetime as dt  # noqa: F401  (kept for future use)
 import os
 from pathlib import Path
+from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
@@ -34,8 +34,8 @@ class PredictionRequest(BaseModel):
     discount_pct: float = Field(ge=0, le=100)
     stock_lines: int = Field(ge=0, le=STOCK_LINES_MAX, description=f"<= {STOCK_LINES_MAX}")
     distance_to_hospital_km: float = Field(ge=0, description="Distance in kilometres (not metres)")
-    shop_type: str = Field(min_length=1)
-    locality: str = Field(min_length=1)
+    shop_type: Literal["hospital_store", "chain", "independent"]
+    locality: Literal["New Town", "Cantonment", "Old Town"]
 
 
 class PredictionResponse(BaseModel):

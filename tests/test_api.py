@@ -29,7 +29,7 @@ def valid_payload():
         "discount_pct": 10.0,
         "stock_lines": 3000,
         "distance_to_hospital_km": 2.5,
-        "shop_type": "retail",
+        "shop_type": "chain",
         "locality": "Old Town",
     }
 
@@ -74,4 +74,13 @@ def test_missing_field(client, valid_payload):
 
 def test_extra_field_rejected(client, valid_payload):
     valid_payload["bogus"] = 1
+    assert client.post("/predict", json=valid_payload).status_code == 422
+
+def test_unknown_shop_type_rejected(client, valid_payload):
+    valid_payload["shop_type"] = "retail"
+    assert client.post("/predict", json=valid_payload).status_code == 422
+
+
+def test_unknown_locality_rejected(client, valid_payload):
+    valid_payload["locality"] = "Atlantis"
     assert client.post("/predict", json=valid_payload).status_code == 422
